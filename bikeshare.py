@@ -2,10 +2,10 @@ import time
 import pandas as pd
 import numpy as np
 
+# Declare global variables.
 CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
-
 cities = ['chicago', 'new york city', 'washington']
 months = ['all', 'january', 'february', 'march', 'arpil', 'may', 'june']
 days = ['all', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
@@ -25,16 +25,19 @@ def get_filters():
     
     # Get user input for city (chicago, new york city, washington).
     city = input("Between Chicago, New York City and Washington in which city do you want to display the data?\n{}".format(enter)).lower()
+    # Handle unexpected input for city.
     while city not in cities:
         city = input("Please chooose between Chicago, New York City, Washington\n{}".format(enter)).lower()
         
     # Get user input for month (all, january, february, ... , june).
     month = input("So, which month do you want to see the data in {}?\n{}".format(city.title(),enter)).lower()
+    # Handle unexpected input for month.
     while month not in months:
        month = input("Please chooose either [from January to June] or [All for no month filtering]\n{}".format(enter)).lower()
     
     # Get user input for day of week (all, monday, tuesday, ... sunday).
     day = input("So, which day of week do you want to see the data in {}?\n{}".format(city.title(),enter)).lower()
+    # Handle unexpected input for day of week.
     while day not in days:
         day = input("Please chooose either [from Monday to Sunday] or [All for no day of week filtering]\n{}".format(enter)).lower()
 
@@ -53,6 +56,7 @@ def load_data(city, month, day):
     Returns:
         df - Pandas DataFrame containing city data filtered by month and day
     """
+
     # Load data file into a dataframe.
     df = pd.read_csv(CITY_DATA[city])
     
@@ -144,14 +148,18 @@ def user_stats(df):
     # Display counts of user types.
     print(df['User Type'].value_counts(),"\n")
     
+    # Check availability for displaying Gender data.
     if ('Gender' in df.columns):
         # Display counts of gender.
         print(df['Gender'].value_counts(),"\n")
         
+    # Check availability for displaying Birth Year data.    
     if ('Birth Year' in df.columns):
-        # Display earliest, most recent, and most common year of birth.
+        # Display the earliest year of birth.
         print("The oldest subscriber or dependent was born in: ", int(df['Birth Year'].min()))
+        # Display the most recent year of birth.
         print("The youngest subscriber or dependent was born in: ", int(df['Birth Year'].max()))
+        # Display the most common year of birth.
         print("The most popular birth year among subscribers and dependents is: ", int(df['Birth Year'].mode()[0]))
 
     print("\nThis took %s seconds." % (time.time() - start_time))
@@ -165,13 +173,16 @@ def display_data(df):
     
     # Get user input for displaying raw data.
     display = input('\nWould you like to open the detail data? Enter yes or no.\n{}'.format(enter)).lower()
-    
+    # Handle unexpected input for displaying raw data.
     while display not in ['yes','no']:
         display = input("Please enter yes or no.\n{}".format(enter)).lower()
     
+    # Handle expected input for displaying raw data.
     if display == 'yes':
+        # Declare start and end index of displayed rows variables.
         start_idx = 0
         end_idx = 5
+        # Declare input for displaying next raw data variable.
         continue_display = 'yes'
         
         while start_idx < len(df):
@@ -181,19 +192,22 @@ def display_data(df):
             
             # Get user input for displaying next 5 rows of raw data.
             continue_display = input('\nWould you like to open the next data? Enter yes or no.\n{}'.format(enter)).lower()
-            
+            # Handle unexpected input for displaying next raw data.
             while continue_display not in ['yes','no']:
                 continue_display = input("Please enter yes or no.\n{}".format(enter)).lower()
-                
+
+            # Handle expected input for displaying next raw data.
             if continue_display == 'yes':
-                # Update start and end index.
+                # Update start and end index of displayed rows variables.
                 start_idx += 5
                 end_idx += 5
                 if end_idx > len(df):
                     end_idx = len(df)
             else:
+                # Stop raw data displaying process.
                 break
-                
+
+        # Notify that there is no more raw data to be displayed.        
         if continue_display == 'yes':
             print('\There is no more data to show!\n')
 
@@ -202,17 +216,24 @@ def display_data(df):
 
 def main():
     while True:
+        # Ask user to specify a city, month, and day to analyze.
         city, month, day = get_filters()
+        # Load data for the specified city and filters by month and day if applicable.
         df = load_data(city, month, day)
-
+        # Display statistics on the most frequent times of travel.
         time_stats(df)
+        # Display statistics on the most popular stations and trip.
         station_stats(df)
+        # Display statistics on the total and average trip duration.
         trip_duration_stats(df)
+        # Display statistics on bikeshare users.
         user_stats(df)
-
+        # Display raw selected US bikeshare data.
         display_data(df)
         
+        # Get user input for restarting the process.
         restart = input('\nWould you like to restart? Enter yes or no.\n')
+        # Handle expected input for restarting the process.
         if restart.lower() != 'yes':
             break
 
