@@ -172,7 +172,7 @@ def display_data(df):
     if display == 'yes':
         start_idx = 0
         end_idx = 5
-        continue_display = 'yes'
+        display_next = 'yes'
         
         while start_idx < len(df):
             # Display 5 rows of raw data.
@@ -180,12 +180,12 @@ def display_data(df):
             print(df.iloc[start_idx:end_idx])
             
             # Get user input for displaying next 5 rows of raw data.
-            continue_display = input('\nWould you like to open the next data? Enter yes or no.\n{}'.format(enter)).lower()
+            display_next = input('\nWould you like to open the next data? Enter yes or no.\n{}'.format(enter)).lower()
             
-            while continue_display not in ['yes','no']:
-                continue_display = input("Please enter yes or no.\n{}".format(enter)).lower()
+            while display_next not in ['yes','no']:
+                display_next = input("Please enter yes or no.\n{}".format(enter)).lower()
                 
-            if continue_display == 'yes':
+            if display_next == 'yes':
                 # Update start and end index.
                 start_idx += 5
                 end_idx += 5
@@ -194,7 +194,7 @@ def display_data(df):
             else:
                 break
                 
-        if continue_display == 'yes':
+        if display_next == 'yes':
             print('\There is no more data to show!\n')
 
     print("\nThis took %s seconds." % (time.time() - start_time))
