@@ -70,6 +70,12 @@ Additionally, any time users are asked for input, there is a chance they may not
 
 Moreover, the script also needs to prompt the user whether they would like to see the raw data. If the user answers 'yes' then the script should print 5 rows of the data at a time, then ask the user if they would like to see 5 more rows of the data. The script should continue prompting and printing the next 5 rows at a time until there is no more data to show or the user chooses 'no' if they do not want any more raw data to be displayed.
 
+## Reference
+
+* [The Python Tutorial](https://docs.python.org/3/tutorial/)
+* [NumPy user guide](https://numpy.org/devdocs/user/index.html)
+* [Pandas API reference](https://pandas.pydata.org/pandas-docs/stable/reference/index.html)
+
 ## Related Course
 
 [Programming for Data Science with Python](https://learn.udacity.com/nanodegrees/nd104) provided by [Udacity](https://www.udacity.com/)
