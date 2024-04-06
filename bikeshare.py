@@ -212,7 +212,10 @@ def main():
 
         display_data(df)
         
-        restart = input('\nWould you like to restart? Enter yes or no.\n')
+        restart = input('\nWould you like to restart? Enter yes or no.\n{}'.format(enter)).lower()
+        # Handle unexpected input for restarting the process.
+        while restart not in ['yes','no']:
+                restart = input("Please enter yes or no.\n{}".format(enter)).lower()
         if restart.lower() != 'yes':
             break
 
